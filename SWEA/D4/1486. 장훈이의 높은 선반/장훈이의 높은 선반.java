@@ -6,7 +6,6 @@ import java.util.StringTokenizer;
 
 class Solution {
 	static ArrayList<Integer> list = new ArrayList<>();
-	static int res = 0;
 
 	static void combination(int[] arr, int start, int r, int n, int B, int res) {
 		if (r == 0) {
