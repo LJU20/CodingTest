@@ -14,18 +14,21 @@ class Solution {
 	}
 
 	public int solution(int[] numbers, int target) {
-
-		int s = 0;
+		
+		int sum = 0;
 		for (int num : numbers) {
-			s += num;
+			sum += num;
 		}
+        if((sum + target) % 2 != 0 ){
+            return 0;
+        }
 		int p;
-		p = (s + target) / 2;
-
+		p = (sum + target) / 2;
+		
 		for (int i = 1; i <= numbers.length; i++) {
 			combination(numbers, 0, i, numbers.length, p, 0);
 		}
-
+		
 		return answer;
 	}
 }
