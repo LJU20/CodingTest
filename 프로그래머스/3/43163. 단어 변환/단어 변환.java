@@ -25,17 +25,7 @@ class Solution {
 	}
 
 	static int solution(String begin, String target, String[] words) {
-
-		boolean found = false;
-		for (String str : words) {
-			if (target.equals(str)) {
-				found = true;
-				break;
-			}
-		}
-		if (!found)
-			return 0;
-
+    
 		Queue<State> queue = new ArrayDeque<>();
 		queue.offer(new State(begin, 0));
 		boolean visited[] = new boolean[words.length];
