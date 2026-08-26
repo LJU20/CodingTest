@@ -3,9 +3,9 @@ import java.util.ArrayList;
 class Solution {
 	public ArrayList<Integer> solution(int[] answers) {
 
-		int[] answer1 = { 1, 2, 3, 4, 5 };
-		int[] answer2 = { 2, 1, 2, 3, 2, 4, 2, 5 };
-		int[] answer3 = { 3, 3, 1, 1, 2, 2, 4, 4, 5, 5 };
+		int[] answer1 = { 1, 2, 3, 4, 5 }; // 5
+		int[] answer2 = { 2, 1, 2, 3, 2, 4, 2, 5 }; // 8
+		int[] answer3 = { 3, 3, 1, 1, 2, 2, 4, 4, 5, 5 }; // 10
 
 		int res1 = 0;
 		int res2 = 0;
@@ -25,24 +25,15 @@ class Solution {
 			number++;
 		}
 		ArrayList<Integer> arrlist = new ArrayList<>();
-		if (res1 > res2 && res1 > res3)
+		int max = Math.max(res1, Math.max(res2, res3));
+
+		if (res1 == max) {
 			arrlist.add(1);
-		else if (res2 > res1 && res2 > res3)
+		}
+		if (res2 == max) {
 			arrlist.add(2);
-		else if (res3 > res1 && res3 > res2)
-			arrlist.add(3);
-		else if (res1 == res2 && res1 > res3) {
-			arrlist.add(1);
-			arrlist.add(2);
-		} else if (res2 == res3 && res2 > res1) {
-			arrlist.add(2);
-			arrlist.add(3);
-		} else if (res1 == res3 && res1 > res2) {
-			arrlist.add(1);
-			arrlist.add(3);
-		} else if (res1 == res2 && res1 == res3) {
-			arrlist.add(1);
-			arrlist.add(2);
+		}
+		if (res3 == max) {
 			arrlist.add(3);
 		}
 
