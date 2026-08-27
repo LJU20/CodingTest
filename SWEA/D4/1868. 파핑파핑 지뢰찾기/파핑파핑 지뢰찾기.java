@@ -10,9 +10,7 @@ class Solution {
 	static void init(char[][] board) {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board.length; j++) {
-				// i j 의 주변 8칸에 지뢰가 있으면 지뢰만큼 숫자배정
-				// 지뢰가 없으면 0 배정
-				// 지뢰가 있는 칸이면 그대로
+
 				if (board[i][j] == '*') {
 					visited[i][j] = true;
 					continue;
@@ -61,10 +59,6 @@ class Solution {
 			}
 		}
 	}
-
-	// 보드에 숫자를 전부 집어 넣는다. (지뢰가 있는곳은 방문한 것으로 처리한다.)
-	// zeroCheck를 하면서 0과 인접한 부분을 전부 방문 처리한다.
-	// visited 배열이 false 인 곳의 개수를 센다.
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
