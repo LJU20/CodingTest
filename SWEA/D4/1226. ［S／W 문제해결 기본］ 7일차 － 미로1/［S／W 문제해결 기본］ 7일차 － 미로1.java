@@ -31,6 +31,7 @@ class Solution {
 
 				if (maze[r][c] == '3') {
 					answer = 1;
+                    break;
 				}
 				for (int i = 0; i < 4; i++) {
 					int nr = r + dr[i];
