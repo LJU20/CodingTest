@@ -51,24 +51,6 @@ class Solution {
 			if (maxSum == -1) {
 				System.out.println(-1);
 			} else {
-
-				while (list.size() > 1) {
-
-					int[] arr1 = list.get(0);
-					int[] arr2 = list.get(1);
-
-					for (int i = 0; i < N; i++) {
-
-						if (arr1[i] < arr2[i]) {
-							list.remove(1);
-							break;
-						} else if (arr1[i] > arr2[i]) {
-							list.remove(0);
-							break;
-						}
-					}
-				}
-
 				for (int n : list.get(0)) {
 					System.out.printf("%d ", n);
 				}
