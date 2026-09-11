@@ -1,38 +1,35 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 class Solution {
+	static int[][] farm;
+	static int r, c, m, result;
+
 	public static void main(String args[]) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-		Scanner sc = new Scanner(System.in);
-		int T;
-		T = sc.nextInt();
+		int T = Integer.parseInt(br.readLine());
 
-		for (int test_case = 1; test_case <= T; test_case++) {
-			int N = sc.nextInt();
-			int[][] arr = new int[N][N];
-			int result = 0;
-			
+		for (int tc = 1; tc <= T; tc++) {
+			int N = Integer.parseInt(br.readLine());
+			farm = new int[N][N];
 			for (int i = 0; i < N; i++) {
-				String str = sc.next();
-				
+				String str = br.readLine();
 				for (int j = 0; j < N; j++) {
-					arr[i][j] = str.charAt(j) - '0';
+					farm[i][j] = str.charAt(j) - '0';
 				}
 			}
-			int mid = N / 2;
+			r = c = N / 2;
+			m = N / 2;
+			result = 0;
 			for (int i = 0; i < N; i++) {
-				int dis = i - mid;
-				if(dis < 0) {
-					dis = -dis;
-				}
-				for (int j = mid - (mid - dis); j < mid + (mid - dis) + 1; j++) {
-					result += arr[i][j];
+				for (int j = 0; j < N; j++) {
+					if (Math.abs(r - i) + Math.abs(c - j) <= m) {
+						result += farm[i][j];
+					}
 				}
 			}
-
-			System.out.printf("#%d %d", test_case, result);
-			System.out.println();
-
+			System.out.printf("#%d %d%n", tc, result);
 		}
 	}
 }
