@@ -40,6 +40,7 @@ public class Solution {
 					}
 					if (maze[nr][nc] == 3) {
 						answer = 1;
+						break;
 					}
 
 					if (maze[nr][nc] == 0) {
@@ -47,7 +48,6 @@ public class Solution {
 						maze[nr][nc] = 1;
 					}
 				}
-
 			}
 			System.out.printf("#%d %d%n", t, answer);
 		}
