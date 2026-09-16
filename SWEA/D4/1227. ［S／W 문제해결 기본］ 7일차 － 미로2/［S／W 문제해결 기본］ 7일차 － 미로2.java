@@ -1,38 +1,36 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.Queue;
 
-class Solution {
+public class Solution {
+	static int[][] maze = new int[100][100];
+	static Queue<int[]> queue;
 	static int[] dr = { -1, 1, 0, 0 };
 	static int[] dc = { 0, 0, -1, 1 };
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		for (int tc = 0; tc < 10; tc++) {
-			int T = Integer.parseInt(br.readLine());
-			char[][] maze = new char[100][100];
+		for (int tc = 1; tc <= 10; tc++) {
+			int t = Integer.parseInt(br.readLine());
+
 			for (int i = 0; i < 100; i++) {
 				String str = br.readLine();
 				for (int j = 0; j < 100; j++) {
-					maze[i][j] = str.charAt(j);
+					maze[i][j] = str.charAt(j) - '0';
 				}
 			}
-			int[][] visited = new int[100][100];
-			visited[1][1] = 1;
+
+			queue = new ArrayDeque<>();
+			queue.offer(new int[] { 1, 1 });
 			int answer = 0;
-			Deque<int[]> deque = new ArrayDeque<>();
-			deque.offer(new int[] { 1, 1 });
 
-			while (!deque.isEmpty()) {
-				int[] current = deque.poll();
-				int r = current[0];
-				int c = current[1];
+			while (!queue.isEmpty()) {
+				int cur[] = queue.poll();
+				int r = cur[0];
+				int c = cur[1];
 
-				if (maze[r][c] == '3') {
-					answer = 1;
-					break;
-				}
 				for (int i = 0; i < 4; i++) {
 					int nr = r + dr[i];
 					int nc = c + dc[i];
@@ -40,16 +38,18 @@ class Solution {
 					if (nr < 0 || nr >= 100 || nc < 0 || nc >= 100) {
 						continue;
 					}
-
-					if (maze[nr][nc] == '1' || visited[nr][nc] == 1) {
-						continue;
+					if (maze[nr][nc] == 3) {
+						answer = 1;
 					}
-					visited[nr][nc] = 1;
-					deque.offer(new int[] { nr, nc });
-				}
-			}
-			System.out.printf("#%d %d%n", T, answer);
-		}
 
+					if (maze[nr][nc] == 0) {
+						queue.offer(new int[] { nr, nc });
+						maze[nr][nc] = 1;
+					}
+				}
+
+			}
+			System.out.printf("#%d %d%n", t, answer);
+		}
 	}
 }
