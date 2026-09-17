@@ -23,18 +23,15 @@ public class Solution {
 				int a = Integer.parseInt(st.nextToken());
 				int b = Integer.parseInt(st.nextToken());
 				union(a, b);
+
 			}
-			int[] cnt = new int[N + 1];
+			int total = 0;
 			for (int i = 1; i <= N; i++) {
-				cnt[findSet(i)]++;
-			}
-			int totalCnt = 0;
-			for (int i = 1; i <= N; i++) {
-				if (cnt[i] > 0) {
-					totalCnt++;
+				if (parent[i] == i) {
+					total++;
 				}
 			}
-			System.out.printf("#%d %d%n", tc, totalCnt);
+			System.out.printf("#%d %d%n", tc, total);
 		}
 	}
 
@@ -51,11 +48,10 @@ public class Solution {
 	}
 
 	static void union(int a, int b) {
-		int rootA = findSet(a);
-		int rootB = findSet(b);
-
-		if (rootA != rootB) {
-			parent[rootB] = rootA;
-		}
+		a = findSet(a);
+		b = findSet(b);
+		if (a == b)
+			return;
+		parent[b] = a;
 	}
 }
