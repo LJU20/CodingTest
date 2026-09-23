@@ -8,17 +8,16 @@ public class Solution {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int T = Integer.parseInt(br.readLine());
 		for (int tc = 1; tc <= T; tc++) {
-			int mul = 1;
+			int answer = 2;
 
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			for (int i = 0; i < 3; i++) {
-				mul *= Integer.parseInt(st.nextToken());
+				if (Integer.parseInt(st.nextToken()) % 2 == 0) {
+					answer = 1;
+					break;
+				}
 			}
-			if (mul % 2 == 0) {
-				System.out.println(1);
-			} else {
-				System.out.println(2);
-			}
+			System.out.println(answer);
 		}
 	}
 }
