@@ -10,10 +10,9 @@ public class Solution {
 	static int[] dc = { 0, 0, -1, 1 };
 
 	static int n, w, h, bCnt; // 구슬, 가로, 세로, 남은 블럭
-	static int[][] map, cMap; // 원본 맵, 복사한 맵
+	static int[][] map;
 
 	static Queue<int[]> queue;
-	static int[] selected; // 구슬을 떨어뜨릴 경우의 수 배열
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,41 +33,41 @@ public class Solution {
 
 			bCnt = Integer.MAX_VALUE;
 
-			selected = new int[n]; // n번 떨어뜨릴 경우의 수(중복 순열)
-			// 중복 순열로 구슬을 떨어뜨릴 모든 위치 탐색
 			dfs(0);
 			System.out.printf("#%d %d%n", tc, bCnt);
 		}
 	}
 
-	static void dfs(int cnt) {
-		if (cnt == n) { // n번 다 고름
-			cMap = copyMap(map); // 원본 배열 복사
-
-			for (int i = 0; i < n; i++) { // bfs n번 실행
-				bfs(0, selected[i]);
-			}
-			bCnt = Math.min(bCnt, blackCheck(cMap)); // 남은 벽돌의 최소 개수 계산
+	static void dfs(int cnt) { // 중복 순열로 구슬을 떨어뜨릴 모든 위치 탐색
+		if (cnt == n || blackCheck(map) == 0) { // n번 실행했거나 벽돌이 없을경우 종료
+			bCnt = Math.min(bCnt, blackCheck(map)); // 남은 벽돌의 최소 개수 계산
 			return;
 		}
-		for (int j = 0; j < w; j++) { // 중복 순열
-			selected[cnt] = j;
-			dfs(cnt + 1);
-		}
 
+		for (int c = 0; c < w; c++) { // 모든 열을 돌면서
+			int r = 0;
+
+			while (r < h && map[r][c] == 0) { // 맨 위가 0이면 한 칸 아래로 내려간다.
+				r++;
+			}
+			if (r == h)
+				continue; // 현재 열이 비었으면 다음 열로 넘어간다.
+
+			int[][] newMap = copyMap(map); // 원복을 위한 맵 복사
+
+			bfs(r, c);
+
+			dfs(cnt + 1);
+
+			map = newMap; // 맵 원복
+
+		}
 	}
 
 	static void bfs(int r, int c) {
 		queue = new ArrayDeque<>();
-
-		while (cMap[r][c] == 0) { // 맨 위가 0이면 한칸 아래로 내려간다.
-			r++;
-			if (r == h) // 바닥이면 부술 벽돌이 없으니 함수를 끝낸다.
-				return;
-		}
-
-		queue.offer(new int[] { r, c, cMap[r][c] }); // 행, 열, 벽돌의 숫자
-		cMap[r][c] = 0; // 시작 위치를 0으로 처리
+		queue.offer(new int[] { r, c, map[r][c] }); // 행, 열, 벽돌의 숫자
+		map[r][c] = 0; // 시작 위치를 0으로 처리
 
 		while (!queue.isEmpty()) {
 
@@ -79,21 +78,21 @@ public class Solution {
 			int size = cur[2];
 
 			for (int d = 0; d < 4; d++) {
-				for (int i = 1; i < size; i++) { // 벽돌에 적힌 숫자만큼 벽돌 제거
+				for (int i = 1; i < size; i++) { // 현재 벽돌을 기준으로 size - 1칸까지 탐색
 					int nr = cr + dr[d] * i;
 					int nc = cc + dc[d] * i;
 
 					if (nr < 0 || nr >= h || nc < 0 || nc >= w)
 						break;
 
-					if (cMap[nr][nc] > 0) { // 연쇄적으로 제거할 벽돌을 다시 큐에 넣음
-						queue.offer(new int[] { nr, nc, cMap[nr][nc] });
+					if (map[nr][nc] > 0) { // 연쇄적으로 제거할 벽돌을 다시 큐에 넣음
+						queue.offer(new int[] { nr, nc, map[nr][nc] });
 					}
-					cMap[nr][nc] = 0; // 제거된 벽돌을 0으로 처리
+					map[nr][nc] = 0; // 제거된 벽돌을 0으로 처리
 				}
 			}
 		}
-		fallBlack(cMap); // 빈 공간의 벽돌을 떨어뜨림
+		fallBlack(map); // 빈 공간의 벽돌을 떨어뜨림
 
 	}
 
@@ -103,7 +102,7 @@ public class Solution {
 
 			for (int row = h - 1; row >= 0; row--) { // 행
 				if (map[row][col] != 0) { // 현재 공간이 0이 아니면
-					if (bottom != row) { // 현재 공간이 0이 아닌데 그 위치가 이미 바닥이면 배치가 끝났으므로 넘어간다.
+					if (bottom != row) { // 벽돌의 배치가 완료되지 않았으면
 						int temp = map[row][col]; // 한칸 아래로 내리고 원래 위치를 0으로 만든다.
 						map[row][col] = 0;
 						map[bottom][col] = temp;
