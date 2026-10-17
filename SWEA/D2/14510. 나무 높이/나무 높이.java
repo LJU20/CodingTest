@@ -26,14 +26,15 @@ public class Solution {
 				even += temp >> 1;
 				odd += temp & 1;
 			}
-			while (even >= odd + 2) {
-				odd += 2;
-				even--;
+			int diff = even - odd;
+			if (diff >= 2) {
+				int temp = (diff + 1) / 3;
+				odd += 2 * temp;
+				even -= temp;
 			}
-			if(odd == 0 && even == 0) {
+			if (odd == 0 && even == 0) {
 				day = 0;
-			}
-			else if (odd > even) {
+			} else if (odd > even) {
 				day = odd * 2 - 1;
 			} else {
 				day = even * 2;
